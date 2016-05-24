@@ -855,8 +855,8 @@ void Interpreter::ProcessScan(int argc, char *argv[])
     }
 
     SuccessOrExit(otActiveScan(scanChannels, 0, &HandleActiveScanResult));
-    sResponse.Append("| J | Network Name     | Extended PAN     | PAN  | MAC Address      | Ch | dBm |\r\n");
-    sResponse.Append("+---+------------------+------------------+------+------------------+----+-----+\r\n");
+    sResponse.Append("| J | Network Name     | Extended PAN     | PAN  | MAC Address      | Ch | dBm | LQI |\r\n");
+    sResponse.Append("+---+------------------+------------------+------+------------------+----+-----+-----+\r\n");
 
 exit:
     return;
@@ -901,8 +901,9 @@ void Interpreter::HandleActiveScanResult(otActiveScanResult *aResult)
     bytes = aResult->mExtAddress.m8;
     sResponse.Append("| %02x%02x%02x%02x%02x%02x%02x%02x ",
                      bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5], bytes[6], bytes[7]);
-    sResponse.Append("| %02d ", aResult->mChannel);
-    sResponse.Append("| %03d |\r\n", aResult->mRssi);
+    sResponse.Append("| %2d ", aResult->mChannel);
+    sResponse.Append("| %3d ", aResult->mRssi);
+    sResponse.Append("| %3d |\r\n", aResult->mLqi);
 
 exit:
     sServer->Output(sResponse.GetResponse(), sResponse.GetResponseLength());

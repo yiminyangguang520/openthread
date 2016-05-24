@@ -1014,6 +1014,7 @@ void MeshForwarder::HandleReceivedFrame(Mac::Frame &aFrame, ThreadError aError)
 
     SuccessOrExit(aFrame.GetDstAddr(macDest));
     messageInfo.mLinkMargin = aFrame.GetPower() - -100;
+    messageInfo.mLqi = aFrame.GetLqi();
 
     payload = aFrame.GetPayload();
     payloadLength = aFrame.GetPayloadLength();
