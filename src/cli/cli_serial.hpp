@@ -80,23 +80,18 @@ public:
      */
     int OutputFormat(const char *fmt, ...);
 
-    static Tasklet sReceiveTask;
-    static Tasklet sSendDoneTask;
+    void ReceiveTask(const uint8_t *aBuf, uint16_t aBufLength);
+    void SendDoneTask(void);
 
 private:
     enum
     {
         kRxBufferSize = 128,
         kTxBufferSize = 512,
-        kMaxLineLength = 80,
+        kMaxLineLength = 128,
     };
 
-    static void ReceiveTask(void *aContext);
-    static void SendDoneTask(void *aContext);
-
     ThreadError ProcessCommand(void);
-    void ReceiveTask(void);
-    void SendDoneTask(void);
     void Send(void);
 
     char mRxBuffer[kRxBufferSize];
